@@ -1,29 +1,23 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const fileInput = document.getElementById('fileInput');
-    const uploadButton = document.getElementById('uploadButton');
-    const fileList = document.getElementById('fileList');
+const uploadForm = document.getElementById('upload-form');
+const fileInput = document.getElementById('file-input');
+const fileList = document.getElementById('file-list');
 
-    uploadButton.addEventListener('click', () => {
-        const files = fileInput.files;
-        if (files.length === 0) {
-            alert('Please select one or more files to upload.');
-            return;
-        }
+uploadForm.addEventListener('submit', (e) => {
+    e.preventDefault();
 
-        // Here, you would implement the file upload logic to your server.
-        // You can use XMLHttpRequest, Fetch API, or other methods to send files to the server.
+    const file = fileInput.files[0];
+    if (!file) {
+        alert('Please select a file to upload.');
+        return;
+    }
 
-        // For a secure and scalable solution, consider using a backend server (e.g., Node.js, Django, Ruby on Rails) and a database to store file information and manage user access.
-        
-        // After successful upload, you can display the uploaded files in the fileList element.
-        fileList.innerHTML = '';
-        for (let i = 0; i < files.length; i++) {
-            const fileItem = document.createElement('div');
-            fileItem.textContent = files[i].name;
-            fileList.appendChild(fileItem);
-        }
+    const fileURL = URL.createObjectURL(file);
+    
+    const img = document.createElement('img');
+    img.src = fileURL;
 
-        // Reset the file input
-        fileInput.value = '';
-    });
+    fileList.appendChild(img);
+    
+    // You can implement the logic to send the file to a server for storage and generate a unique link here.
+    // This example only displays the uploaded file on the page.
 });
